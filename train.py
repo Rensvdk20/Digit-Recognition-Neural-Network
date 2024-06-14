@@ -27,7 +27,7 @@ model = Sequential()
 
 model.add(Conv2D(64, (3,3), input_shape = x_trainr.shape[1:])) # 2D convulational layer with 64 filters, 3x3 size
 model.add(Activation("relu")) # Activation function to make the model non-linear and setting all values < 0 to 0
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2,2))) # Halves the size of the image (2x2) and keeps the highest value (preserving the most important features)
 
 model.add(Conv2D(64, (3,3)))
 model.add(Activation("relu"))
@@ -37,17 +37,19 @@ model.add(Conv2D(64, (3,3)))
 model.add(Activation("relu"))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
-model.add(Flatten())
-model.add(Dense(64))
+model.add(Flatten()) # Flattens the data to 1D for the dense layers
+model.add(Dense(64)) # Dense layer with 64 neurons
 model.add(Activation("relu"))
 
-model.add(Dense(32))
+model.add(Dense(32)) # Dense layer with 32 neurons
 model.add(Activation("relu"))
 
-model.add(Dense(10))
-model.add(Activation("softmax"))
+model.add(Dense(10)) # Dense layer with 10 neurons (0-9)
+model.add(Activation("softmax")) # Activation function to output probabilities for each class (0-9 digits)
 
 # Compile and train the model
+# Loss function: sparse_categorical_crossentropy (for integer labels)
+# Optimizer: adam (efficient gradient descent algorithm)
 model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 model.fit(x_trainr, y_train, epochs=5, validation_split=0.3)
 
